@@ -4,9 +4,9 @@ import AVFoundation
 // 5/15
 
 public protocol SoundEffectPlayerConfig {
+    
     var enforcedSoundFormat: AVAudioFormat { get }
     var soundFiles: [String: URL] { get }
-    var numberOfSounds: Int { get }
 }
 
 
@@ -33,7 +33,6 @@ public class SoundEffectPlayer {
     
     private init(config: SoundEffectPlayerConfig) {
         self.config = config
-        assert(config.soundFiles.count == config.numberOfSounds)
         setupAudioEngine()
         loadSounds()
     }
