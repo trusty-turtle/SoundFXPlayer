@@ -1,20 +1,20 @@
 import Foundation
 import AVFoundation
 
-// 5/15
+// 5/16
 
-public protocol SoundEffectPlayerConfig {
+public protocol SoundFXPlayerConfig {
     
     var enforcedSoundFormat: AVAudioFormat { get }
     var soundFiles: [String: URL] { get }
 }
 
 
-public class SoundEffectPlayer {
+public class SoundFXPlayer {
     
-    private var config: SoundEffectPlayerConfig
-    private static var sharedInstance: SoundEffectPlayer?
-    public static var shared: SoundEffectPlayer {
+    private var config: SoundFXPlayerConfig
+    private static var sharedInstance: SoundFXPlayer?
+    public static var shared: SoundFXPlayer {
         guard let instance = sharedInstance else {
             fatalError("Attempted to access SoundEffectPlayer.shared without prior setup. Please configure SoundEffectPlayer using setupSharedInstance(config:) first.")
         }
@@ -27,11 +27,11 @@ public class SoundEffectPlayer {
     
     // ------------------------------------------------------------------------------------------------ INIT
     
-    public static func setupSharedInstance(config: SoundEffectPlayerConfig) {
-        sharedInstance = SoundEffectPlayer(config: config)
+    public static func setupSharedInstance(config: SoundFXPlayerConfig) {
+        sharedInstance = SoundFXPlayer(config: config)
     }
     
-    private init(config: SoundEffectPlayerConfig) {
+    private init(config: SoundFXPlayerConfig) {
         self.config = config
         setupAudioEngine()
         loadSounds()
@@ -80,7 +80,9 @@ public class SoundEffectPlayer {
             print("Sound not available: \(soundName)")
             return
         }
+        
         playerNode.stop()
+    
         playerNode.scheduleBuffer(buffer, at: nil, options: [])
         do {
             try engine.start()
