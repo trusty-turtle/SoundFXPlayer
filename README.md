@@ -1,11 +1,15 @@
+(not ready)
+
 # SoundFXPlayer
 A Simple and Reliable Low-Latency "Fire-and-Forget" Sound Effect Player for Swift/SwiftUI projects
 
-The SoundFXPlayer object acts as a singleton.
+SoundFXPlayer is designed to be used as a singleton via SoundFXPlayer.shared, but...
 
-It must be intialized with a configuration *before* you attempt to access the shared instance (SoundFXPlayer.shared) or you will get a fatalError().
+The SoundFXPlayer must be intialized with a configuration *before* you attempt to access the shared instance (SoundFXPlayer.shared) or you will get a fatalError().
 
 Not intended for very long sound files -- sounds are always resident in memory, so keep an eye on memory if using large sound files.
+
+Sounds are cut off when new sounds are played.
 
 # Usage
 
@@ -21,7 +25,7 @@ struct MyPlayerConfig: SoundFXPlayerConfig {
     var soundFiles: [String:URL] = [
       "myFirstSound":Bundle.main.url(forResource: "gong_forward", withExtension: "wav")!,
       "mySecondSound":Bundle.main.url(forResource: "gong_reverse", withExtension: "wav")!
-        // add more ...
+    // add more ...
     ]
 }
 ```
@@ -34,14 +38,7 @@ SoundFXPlayer.setupSharedInstance(config: MyPlayerConfig())
 Play your sounds from anywhere in your app:
 
 ```swift
-SoundFXPlayer.shared.playSoundEffect("gong_forward")
-```
-
-When using .playSoundEffect(String), any current sounds are cut off/stopped first by default.
-To *not* stop any currently playing sound before the new sound starts playing:
-
-```swift
-SoundFXPlayer.shared.playSoundEffect("gong_forward", stopCurrentSound: false)
+SoundFXPlayer.shared.playSoundEffect("myFirstSound")
 ```
 
 Explicitly stop playback:
